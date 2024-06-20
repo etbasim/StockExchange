@@ -100,22 +100,22 @@ public class StockControllerTests {
 
         ResponseEntity<Stock> stockResponse = restTemplate.postForEntity(getBaseUrl("stock"), request, Stock.class);
 
-        // add stock AAPL to NYSE
-        restTemplate.exchange(getBaseUrl("stock-exchange/NYSE"), HttpMethod.PUT, new HttpEntity<>(stockResponse.getBody(), headers), StockExchange.class);
+        // add stock AAPL to SSE
+        restTemplate.exchange(getBaseUrl("stock-exchange/SSE"), HttpMethod.PUT, new HttpEntity<>(stockResponse.getBody(), headers), StockExchange.class);
 
-        // add stock AAPL to IMKB
-        restTemplate.exchange(getBaseUrl("stock-exchange/IMKB"), HttpMethod.PUT, new HttpEntity<>(stockResponse.getBody(), headers), StockExchange.class);
+        // add stock AAPL to LSE
+        restTemplate.exchange(getBaseUrl("stock-exchange/LSE"), HttpMethod.PUT, new HttpEntity<>(stockResponse.getBody(), headers), StockExchange.class);
 
         // delete the stock AAPL
         restTemplate.exchange(getBaseUrl("stock"), HttpMethod.DELETE, new HttpEntity<>(stockResponse.getBody(), headers), Void.class);
 
         // Verify AAPL deleted from NYSE
-        ResponseEntity<StockExchange> nyse = restTemplate.exchange(getBaseUrl("stock-exchange/NYSE"), HttpMethod.GET, new HttpEntity<>(headers), StockExchange.class);
-        assertThat(nyse.getBody().getStocks().size()).isEqualTo(0);
+        ResponseEntity<StockExchange> sse = restTemplate.exchange(getBaseUrl("stock-exchange/SSE"), HttpMethod.GET, new HttpEntity<>(headers), StockExchange.class);
+        assertThat(sse.getBody().getStocks().size()).isEqualTo(0);
 
         // Verify AAPL deleted from IMKB
-        ResponseEntity<StockExchange> imkb = restTemplate.exchange(getBaseUrl("stock-exchange/IMKB"), HttpMethod.GET, new HttpEntity<>(headers), StockExchange.class);
-        assertThat(imkb.getBody().getStocks().size()).isEqualByComparingTo(0);
+        ResponseEntity<StockExchange> lse = restTemplate.exchange(getBaseUrl("stock-exchange/LSE"), HttpMethod.GET, new HttpEntity<>(headers), StockExchange.class);
+        assertThat(lse.getBody().getStocks().size()).isEqualByComparingTo(0);
     }
 
     @Test

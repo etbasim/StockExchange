@@ -1,5 +1,6 @@
 package com.stockexchange.casestudy.stock;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.stockexchange.casestudy.stockexchange.StockExchange;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,7 +10,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
@@ -36,8 +36,8 @@ public class Stock {
 
     private Timestamp lastUpdate;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "stocks")
-    @Transient
     private Set<StockExchange> stockExchanges = new HashSet<>();
 
     public Long getId() {
